@@ -45,19 +45,44 @@ let heroes = [
     { number: 18, heroName: "Valkiria", checked: false },
 ]
 
+const level = 1;
+
 //DOM elements:
 const refs = {
     gridContainer: document.querySelector('.grid__container'),
     hours: document.querySelector("span[data-hours]"),
     minutes: document.querySelector("span[data-minutes]"),
     seconds: document.querySelector("span[data-seconds]"),
+    rightfield: document.querySelector(".timer__box"),
+    gameTimer: document.querySelector('.timer'),
+
+    middleBox: document.querySelector(".middle__box"),
+    cardField: document.querySelector("#card__field"),
+    startPage: document.querySelector("#start__page"),
+    tableScore: document.querySelector("#table__score"),
 }
+
+
+function showStartPage() { 
+    refs.middleBox.innerHTML = "";
+    refs.gameTimer.classList.add('is-hidden');
+
+    refs.middleBox.append(refs.startPage.content.cloneNode(true));
+    refs.startBtn = document.querySelector("button[data-start]");
+    refs.scoreBtn = document.querySelector('button[data-scores]')
+    refs.startBtn.addEventListener('click', showCardField);
+    refs.scoreBtn.addEventListener('click', showTableScore);
+}
+
+showStartPage();
 
 
 // Make random order in Array:
 function randomHeroes(array) { 
+    // const arrayByLevel = array.filter(item => item.number < 10);
+
     for (let i = 0; i < array.length; i++) { 
-        let currentHero = array[i];
+    let currentHero = array[i];
         let randomIndex = (Math.floor(Math.random() * array.length));
         array[i] = heroes[randomIndex];
         array[randomIndex] = currentHero;
@@ -71,7 +96,7 @@ const randomHeroesArray = randomHeroes(heroes);
 function createGridItems() { 
     return randomHeroesArray.map((hero, index) =>
         `
-            <div class="grid__item" data-id=${index} data-hero=${hero.heroName}>
+            <div class="grid__item" data-id=${index} data-hero=${hero.heroName} style="animation-delay:${index * 100}ms">
                 <div class="item__front">
                     <img src="./images/${hero.number}.png" alt="">
                 </div>
@@ -81,105 +106,99 @@ function createGridItems() {
     ).join('');
 }
 
-//Shows new random ordered cards on game field:
-function renderGamefield() { 
+
+
+//renders cards field:
+
+function showCardField() { 
+    refs.middleBox.innerHTML = "";
+    refs.gameTimer.classList.remove('is-hidden');
+
+
+    refs.middleBox.append(refs.cardField.content.cloneNode(true));
+    
+    refs.gridContainer = document.querySelector(".grid__container");
     refs.gridContainer.innerHTML = createGridItems();
+    refs.gridContainer.addEventListener('click', findsPair, true);
 }
 
-renderGamefield();
 
-let lastRotated;
+//renders table Score:
+let table;
+
+function showTableScore() { 
+    refs.middleBox.innerHTML = "";
+
+    refs.middleBox.append(refs.tableScore.content.cloneNode(true));
+    table = document.querySelector('.table__score--container');
+
+    refs.gameTimer.classList.add('is-hidden');
+}
+
+
+//Game logic:
+let previousSelectedCard;
 let timer;
 let totalScore = 0;
 
 function findsPair(e) {
-    if (timer === undefined) {
+    if (!timer && !e.target.classList.contains('rotated')) {
         e.target.classList.add("rotated");
         startTimer();
-        if (lastRotated !== undefined)  {
-            if (lastRotated.dataset.hero === e.target.dataset.hero) {
-                lastRotated = undefined;
-                // lastRotated.dataset.id
+        if (previousSelectedCard)  {
+            if (previousSelectedCard.dataset.hero === e.target.dataset.hero) {
+                previousSelectedCard = undefined;
                 totalScore = totalScore + 1;
             } else {
                 timer = setTimeout(() => {
-                    lastRotated.classList.remove("rotated");
+                    previousSelectedCard.classList.remove("rotated");
                     e.target.classList.remove("rotated");
-                    lastRotated = undefined;
+                    previousSelectedCard = undefined;
                     timer = undefined;
-                }, 1500)
+                }, 1000)
             }
         } else {
-            lastRotated = e.target;
+            previousSelectedCard = e.target;
         }
     }
     console.log(totalScore);
-    if (totalScore === 18) { console.log("WIN!")}
+
+    if (totalScore === (heroes.length / 2)) {
+        finishedGame();
+    }
 }
 
+
+//Timer:
 let sec = 0;
 let min = 0;
+let gameTimer;
 
 function startTimer() { 
-    // const startMoment = new Date().;
-
-    setInterval(() => {
-        sec = sec + 1;
-        if (sec > 60) {
-            sec = 0;
-            return;
-        }
-        if (sec === 0 || sec === 60) {
-            refs.seconds.textContent = "00";
-        }
-        else {
-            refs.seconds.textContent = `${sec}`;
-        }
-    }, 1000);
-
-        setInterval(() => {
-        min = min + 1;
-        if (min > 60) {
-            min = 0;
-            return;
-        }
-        if (min === 0 || min === 60) {
-            refs.seconds.textContent = "00";
-        }
-        else {
-            refs.minutes.textContent = `${min}`;
-        }
-    }, 60000);
-
-
+    if (gameTimer === undefined) {
+        gameTimer = setInterval(() => {
+            sec = sec + 1;
+            if (sec === 60) {
+                sec = 0;
+                min = min + 1;
+                refs.minutes.innerText =  min < 10 ? "0" + min : min;
+            }
+            refs.seconds.innerText = sec < 10 ? "0" + sec : sec;
+        }, 1000);
+    };
 }
 
-// let previosCard;
-// let totalScore = 0;
+function finishedGame() {
+    clearInterval(gameTimer);
 
-// function openCard(e) { 
-//     if (!e.target.classList.contains('grid__item')) { return };
-//     e.target.classList.add("rotated");
-//     previosCard = e.target;
-//     console.log(totalScore);
-//     setTimeout((e) => isthePair(e), 1500)
-// }
+    //konfeti
 
-// function isthePair() { 
-//     const allRotated = refs.gridContainer.querySelectorAll('.rotated');
-//     const rotatedCards = [...allRotated];
-//     const rotatedDataHero = rotatedCards.map(item => item.dataset.hero);
-//     console.log(rotatedDataHero);
-//     if (rotatedDataHero.includes(`${previosCard.dataset.hero}`)) {
-//         totalScore = totalScore + 1;
-//     } else { 
-//         previosCard.classList.remove("rotated");       
-//     }
-// }
+    setTimeout(() => {
+        prompt("WELL DONE! Your name is...");
+        setTimeout(() => (showTableScore()) , 1000);
+    }, 1000);
+}
 
 
-//turns back no more than two cards
-//data-id 0-36
 
-//add EventListners:
-refs.gridContainer.addEventListener('click', findsPair, true);
+

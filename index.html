@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container game__field">
-        <div class="title__box">
+        <div class="left__box">
             <h1>
                 <span>Play</span>
                 <span>the</span>
@@ -29,14 +29,9 @@
             </h2>
             <img src="./images/Avengers-Transparent-File.png" alt="" class="water__sign">
         </div>
-
-        <div class="grid__container"></div>
-        <div class="timer__box">
+        <div class="middle__box"></div>
+        <div class="right__box">
             <div class="timer">
-                <div class="timer__field">
-                    <span class="value" data-hours>00</span>
-                </div>
-                <span>:</span>
                 <div class="timer__field">
                     <span class="value" data-minutes>00</span>
                 </div>
@@ -47,6 +42,36 @@
             </div>
         </div>
     </div>
+    
+    <template id="start__page">
+        <button type="button" data-start>Start Game</button>
+        <button type="button" data-scores>Show scores</button>
+    </template>
+    
+    <template id="card__field">
+        <div class="grid__container"></div>
+    </template>
+
+    <template id="table__score">
+        <div class="table__score--container">
+            <h1>SCORE TABLE</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Players</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="user__name">Amanda</td>
+                        <td class="user__score">23:54</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </template>
+    
 
 
 
