@@ -50,7 +50,6 @@ const level = 1;
 //DOM elements:
 const refs = {
     gridContainer: document.querySelector('.grid__container'),
-    hours: document.querySelector("span[data-hours]"),
     minutes: document.querySelector("span[data-minutes]"),
     seconds: document.querySelector("span[data-seconds]"),
     rightfield: document.querySelector(".timer__box"),
@@ -60,19 +59,30 @@ const refs = {
     cardField: document.querySelector("#card__field"),
     startPage: document.querySelector("#start__page"),
     tableScore: document.querySelector("#table__score"),
+    newGameBtn: document.querySelector(".new__game-btn"),
 }
 
 
 function showStartPage() { 
     refs.middleBox.innerHTML = "";
     refs.gameTimer.classList.add('is-hidden');
+    refs.newGameBtn.classList.add('is-hidden');
 
     refs.middleBox.append(refs.startPage.content.cloneNode(true));
     refs.startBtn = document.querySelector("button[data-start]");
-    refs.scoreBtn = document.querySelector('button[data-scores]')
     refs.startBtn.addEventListener('click', showCardField);
+    refs.scoreBtn = document.querySelector('button[data-scores]');
     refs.scoreBtn.addEventListener('click', showTableScore);
 }
+
+
+refs.newGameBtn.addEventListener('click', () => {
+    window.location.reload();
+    // randomHeroes();
+    // createGridItems()
+    // showCardField();
+});
+
 
 showStartPage();
 
@@ -113,7 +123,7 @@ function createGridItems() {
 function showCardField() { 
     refs.middleBox.innerHTML = "";
     refs.gameTimer.classList.remove('is-hidden');
-
+    refs.newGameBtn.classList.remove('is-hidden');
 
     refs.middleBox.append(refs.cardField.content.cloneNode(true));
     
@@ -123,14 +133,13 @@ function showCardField() {
 }
 
 
-//renders table Score:
-let table;
 
+//renders table Score:
 function showTableScore() { 
     refs.middleBox.innerHTML = "";
 
     refs.middleBox.append(refs.tableScore.content.cloneNode(true));
-    table = document.querySelector('.table__score--container');
+    refs.table = document.querySelector('.table__score--container');
 
     refs.gameTimer.classList.add('is-hidden');
 }
@@ -163,7 +172,7 @@ function findsPair(e) {
     }
     console.log(totalScore);
 
-    if (totalScore === (heroes.length / 2)) {
+    if (totalScore === (heroes.length / 18)) {
         finishedGame();
     }
 }
@@ -188,17 +197,71 @@ function startTimer() {
     };
 }
 
+let userData = {
+    userName: "",
+    userScore: "",
+}
+
 function finishedGame() {
     clearInterval(gameTimer);
 
     //konfeti
 
     setTimeout(() => {
-        prompt("WELL DONE! Your name is...");
-        setTimeout(() => (showTableScore()) , 1000);
+        
+        userData.userName = prompt("WELL DONE! Your name is...");
+        // if (userData.userName = "" || userData.userName === null) { 
+        //     userData.userName = randomHeroesArray.find((el, i, arr) => arr[0].userName);
+        // }
+        userData.userScore = (Number(refs.minutes.textContent) * 60) + Number(refs.seconds.textContent);
+        // setTimeout(() => (showTableScore()) , 1000);
     }, 1000);
+    savingScore();
 }
 
+//saving users score:
+function savingScore() {
+    setTimeout(() => { 
+        const LOCALSTORAGE_KEY = "bestScoresGame";
+        const LOCALSTORAGE_VALUE = localStorage.getItem("bestScoresGame");
+        let bestScores = (JSON.parse(LOCALSTORAGE_VALUE) === null ? [] : [...JSON.parse(LOCALSTORAGE_VALUE)]);
+        
+    console.log(LOCALSTORAGE_KEY);
+    console.log(LOCALSTORAGE_VALUE);
+    if (bestScores.length <= 10) {
+        bestScores.push(userData);
+        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
+    } else {
+        const worstResult = bestScores.find(item => Math.min(Number(item.userScore)))
+        if (userData.userScore >= worstResult) {
+            bestScores.pop(worstResult);
+            bestScores.push(userData);
+            localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
+        } else {
+            alert(`So sorry ${userData.userName}, try again to get better result:)`)
+        }
+    }}, 1500)
+}
+// function savingScore() {
+    
+//     if (bestScores.length <= 10) { 
+//         bestScores.push(userData);
+//         localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
+//     } else { 
+//         const worstResult = bestScores.find(item => Math.min(Number(item.userScore)))
+//         if (userData.userScore >= worstResult) {
+//             bestScores.pop(worstResult);
+//             bestScores.push(userData);
+//             localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
+//         } else { 
+//             alert(`So sorry ${userData.userName}, try again to get better result:)`)
+//         }
+//     }
+//     // let currentLocalStor;
 
-
+// }
+//vudae local stor;
+//[null, {userName: "", userScore: ""}]
+// 0: null
+// 1: {userName: "", userScore: ""}
 

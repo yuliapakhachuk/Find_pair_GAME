@@ -58,6 +58,10 @@ button {
 button:hover {
     background-color: #bf98c1;
 }
+.new__game-btn.is-hidden {
+    display: none;
+}
+
 
 .game__field {
     display: flex;
@@ -162,6 +166,19 @@ h1 {
     border: rgba(8, 79, 123, 0.77) 2px solid;
     transform: rotateY(360deg);
 }
+.table {
+    font-size: 25px;
+    letter-spacing: 0.06;
+    border: 2px solid #af76b2;
+}
+.table th,
+.table td {
+    width: 250px;
+    padding: 5px;
+    border-top: 2px solid #af76b2;
+    border-right: 2px solid #af76b2;
+}
+
 
 /* ANIMATION */
 /* @keyframes slide {
