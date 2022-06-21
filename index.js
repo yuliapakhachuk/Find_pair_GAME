@@ -222,46 +222,27 @@ function finishedGame() {
 //saving users score:
 function savingScore() {
     setTimeout(() => { 
+        
         const LOCALSTORAGE_KEY = "bestScoresGame";
         const LOCALSTORAGE_VALUE = localStorage.getItem("bestScoresGame");
         let bestScores = (JSON.parse(LOCALSTORAGE_VALUE) === null ? [] : [...JSON.parse(LOCALSTORAGE_VALUE)]);
         
-    console.log(LOCALSTORAGE_KEY);
-    console.log(LOCALSTORAGE_VALUE);
     if (bestScores.length <= 10) {
         bestScores.push(userData);
         localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
     } else {
-        const worstResult = bestScores.find(item => Math.min(Number(item.userScore)))
-        if (userData.userScore >= worstResult) {
-            bestScores.pop(worstResult);
+        const scores = bestScores.map(item =>  Number(item.userScore));
+        const worstResultIndex = scores.indexOf(Math.max(...scores));
+        const worstResult = bestScores[worstResultIndex];
+        if (userData.userScore <= worstResult.userScore) {
+            bestScores.splice(worstResultIndex, 1);
             bestScores.push(userData);
             localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
         } else {
             alert(`So sorry ${userData.userName}, try again to get better result:)`)
+            }
         }
-    }}, 1500)
+    }, 1500)
 }
-// function savingScore() {
-    
-//     if (bestScores.length <= 10) { 
-//         bestScores.push(userData);
-//         localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
-//     } else { 
-//         const worstResult = bestScores.find(item => Math.min(Number(item.userScore)))
-//         if (userData.userScore >= worstResult) {
-//             bestScores.pop(worstResult);
-//             bestScores.push(userData);
-//             localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
-//         } else { 
-//             alert(`So sorry ${userData.userName}, try again to get better result:)`)
-//         }
-//     }
-//     // let currentLocalStor;
 
-// }
-//vudae local stor;
-//[null, {userName: "", userScore: ""}]
-// 0: null
-// 1: {userName: "", userScore: ""}
 
