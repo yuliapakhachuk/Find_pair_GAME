@@ -198,6 +198,8 @@ h1 {
     font-size: 25px;
     letter-spacing: 0.06;
     border: 2px solid #af76b2;
+
+    overflow: scroll;
 }
 .table th,
 .table td {
