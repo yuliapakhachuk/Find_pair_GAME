@@ -57,6 +57,7 @@ const refs = {
     startPage: document.querySelector("#start__page"),
     tableScore: document.querySelector("#table__score"),
     menuBtn: document.querySelector(".new__game-btn"),
+    allResults: document.querySelector('#all__scores'),
 }
 
 
@@ -259,7 +260,23 @@ function renderScoreTableHTML() {
             `
     }).join("");
 }
+refs.showMoreBtn = document.querySelector(".show__more");
+refs.showMoreBtn.addEventListener('click', showMoreScores);
 
 function showMoreScores() {
+    refs.middleBox.innerHTML = "";
+
+    refs.middleBox.append(refs.allResults.content.cloneNode(true));
+    refs.allScoresList = document.querySelector('.all__scores--list');
+        
+    const allScoreItems = [...JSON.parse(localStorage.getItem("bestScoresGame"))].slice(10, 90).map(score => {
+        return `
+        <li class="all__scores--item">
+            <span class="all__scores--name">${score.userName}</span> - 
+            <span class="all__scores--time">${score.userTime}</span>
+        </li>
+        `
+    }).join("");
     
+    refs.allScoresList.innerHTML = allScoreItems;
 }

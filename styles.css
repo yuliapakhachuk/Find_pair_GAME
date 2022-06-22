@@ -198,7 +198,13 @@ h1 {
     border-top: 2px solid #af76b2;
     border-right: 2px solid #af76b2;
 }
+.all__scores--list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 
+    max-height: 100%;
+}
 
 /* ANIMATION */
 /* @keyframes slide {
