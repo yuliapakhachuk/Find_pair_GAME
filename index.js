@@ -248,7 +248,9 @@ function savingScore() {
 
 function renderScoreTableHTML() { 
     refs.showMoreBtn.classList.remove("is-hidden");
-    return [...JSON.parse(localStorage.getItem("bestScoresGame"))].slice(0, 10).map(score => {
+    const bestScores = (JSON.parse(localStorage.getItem("bestScoresGame")) === null ? [] : [...JSON.parse(localStorage.getItem("bestScoresGame"))]);
+
+    return bestScores.slice(0, 10).map(score => {
         return `
             <tr class="table__row">
                 <td class="user__name">${score.userName}</td>
