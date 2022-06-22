@@ -41,6 +41,7 @@
                 </div>
             </div>
             <button type="button" data-restart class="new__game-btn">Back to menu</button>
+            <button type="button" class="show__more">Show more...</button>
         </div>
     </div>
     
@@ -65,6 +66,7 @@
     <template id="table__score">
         <div class="table__score--container">
             <h1>SCORE TABLE</h1>
+            <p>Top 10</p>
             <table class="table">
                 <thead>
                     <tr class="table__row">
@@ -73,14 +75,28 @@
                     </tr>
                 </thead>
                 <tbody class="table__body">
-                    <tr class="table__row">
-                        <td class="user__name">Amanda</td>
-                        <td class="user__score">23:54</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
-        </template>
+    </template>
+
+    <template id="all__scores">
+        <table class="all__scores--table">
+            <thead>
+                <tr class="table__row">
+                    <th>Players</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody class="all__scores--body">
+                <tr class="all__scores--row">
+                    <td class="all__scores--name">Amanda</td>
+                    <td class="all__scores--time">23:54</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
     
 
 

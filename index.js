@@ -42,9 +42,7 @@ let userData = {
     userScore: "",
     userTime: "",
     userLevel: "",
-// напиши метод сотрування масиву выд левела
 }
-
 
 
 //DOM elements:
@@ -80,6 +78,7 @@ function showStartPage() {
 }
 
 showStartPage();
+refs.menuBtn.addEventListener('click', () => { window.location.reload(); });
 
 
 function chooseLevel() { 
@@ -97,16 +96,12 @@ function chooseLevel() {
     });
 }
 
-refs.menuBtn.addEventListener('click', () => {
-    window.location.reload();
-});
-
-
 
 
 // Make random order in Array:
+let arrayByLevel;
 function randomHeroes(heroes) { 
-    const arrayByLevel = (userData.userLevel === "expert") ? (heroes) : (heroes.filter(item => { return item.number <= 8; }));
+    arrayByLevel = (userData.userLevel === "expert") ? (heroes) : (heroes.filter(item => { return item.number <= 8; }));
     console.log(arrayByLevel);
 
     for (let i = 0; i < arrayByLevel.length; i++) { 
@@ -115,9 +110,9 @@ function randomHeroes(heroes) {
         arrayByLevel[i] = arrayByLevel[randomIndex];
         arrayByLevel[randomIndex] = currentHero;
     }
+    console.log(heroes);
     return arrayByLevel;
 }
-
 
 
 //Creates HTML in grid-container whith random order:
@@ -145,6 +140,10 @@ function showCardField() {
     refs.middleBox.append(refs.cardField.content.cloneNode(true));
     
     refs.gridContainer = document.querySelector(".grid__container");
+    if (userData.userLevel === "beginner") { 
+        refs.gridContainer.style.gridTemplateColumns = "1fr 1fr 1fr 1fr";
+        refs.gridContainer.style.gridTemplateRows = "1fr 1fr 1fr 1fr";
+    }
     refs.gridContainer.innerHTML = createGridItems();
     refs.gridContainer.addEventListener('click', (e) => {
         findsPair(e);
@@ -196,7 +195,7 @@ function findsPair(e) {
             previousSelectedCard = e.target;
         }
 
-        if (totalScore === (heroes.length / 18)) {
+        if (totalScore === (arrayByLevel.length / 2)) {
             finishedGame();
         }
     }
@@ -251,7 +250,7 @@ function savingScore() {
 }
 
 function renderScoreTableHTML() { 
-    return [...JSON.parse(localStorage.getItem("bestScoresGame"))].map(score => {
+    return [...JSON.parse(localStorage.getItem("bestScoresGame"))].slice(0, 10).map(score => {
         return `
             <tr class="table__row">
                 <td class="user__name">${score.userName}</td>
@@ -261,3 +260,6 @@ function renderScoreTableHTML() {
     }).join("");
 }
 
+function showMoreScores() {
+    
+}

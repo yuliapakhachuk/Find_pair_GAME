@@ -18,8 +18,6 @@ body {
     height: 100vh;
 }
 
-/* font-family: 'Dancing Script',cursive; */
-
 .container {
     position: relative;
     padding-top: 15px;
@@ -55,7 +53,7 @@ button {
     background-color: #6a71b3;
     color: #ffffff;
 
-    transition-property: background-color;
+    transition-property: background-color, color;
     transition-duration: 500ms;
     transition-timing-function: ease-in-out;
 
@@ -72,10 +70,13 @@ button:hover {
     display: flex;
 }
 .level__list button {
-    background-color: rgba(8, 79, 123);
+    background-color: #fb988d;
+    height: 130px;
+    border: 1px rgb(1, 69, 114) dashed;
 }
 .level__list button:hover {
-    background-color: rgb(123, 111, 8);
+    background-color: rgb(245, 230, 94);
+    color: rgb(1, 69, 114);
 }
 
 .level__list.is-hidden {
@@ -88,7 +89,6 @@ button:hover {
     justify-content: space-between;
 
     overflow: hidden;
-    
 }
 .left__box, 
 .right__box {
@@ -210,5 +210,13 @@ h1 {
     to {
         transform: translateX(0);
         opacity: 1;
+    }
+} */
+/* @keyframes background {
+    from {
+        background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    }
+    to {
+        background-image: linear-gradient(to right top, #f04d4d, #f67048, #f8904a, #f8ad54, #f6c967, #fbc36f, #febe77, #ffb980, #fb988d, #e081a2, #af76b2, #6a71b3);
     }
 } */
