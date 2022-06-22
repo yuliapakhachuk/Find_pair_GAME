@@ -178,6 +178,7 @@ let previousSelectedCard;
 let totalScore = 0;
 
 function findsPair(e) {
+    if (!e.target.classList.contains('grid__item')) { return; };
     if (!e.target.classList.contains('rotated')) {
         e.target.classList.add("rotated");
         startTimer();
