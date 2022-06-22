@@ -3,6 +3,9 @@
     margin: 0;
     padding: 0;
 }
+ul {
+    list-style: none;
+}
 
 body {
     background-image: linear-gradient(to right top, #f04d4d, #f67048, #f8904a, #f8ad54, #f6c967, #fbc36f, #febe77, #ffb980, #fb988d, #e081a2, #af76b2, #6a71b3);
@@ -13,7 +16,6 @@ body {
     font-weight: 500;
 
     height: 100vh;
-
 }
 
 /* font-family: 'Dancing Script',cursive; */
@@ -31,6 +33,11 @@ body {
 }
 
 .middle__box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
     max-width: 63%;
 }
 
@@ -56,12 +63,25 @@ button {
 }
 
 button:hover {
-    background-color: #bf98c1;
+    background-color: #bc49c2;
 }
 .new__game-btn.is-hidden {
     display: none;
 }
+.level__list {
+    display: flex;
+}
+.level__list button {
+    background-color: rgba(8, 79, 123);
+}
+.level__list button:hover {
+    background-color: rgb(123, 111, 8);
+}
 
+.level__list.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
 .game__field {
     display: flex;
@@ -87,8 +107,10 @@ h1 {
     position: absolute;
     top: 80%;
     left: 0;
+    z-index: -1;
     transform: translateY(-50%);
     width: 500px;
+    pointer-events: none;
 
     opacity: 0.2;
 }
@@ -106,7 +128,6 @@ h1 {
     gap: 10px;
     width: 100vh;
     max-width: 100%;
-        /* max-width: 1050px; */
     height: 100%;
     max-height: 1050px;
 }
@@ -123,7 +144,6 @@ h1 {
 .grid__item * {
     pointer-events: none;
 }
-
 
 .grid__item.rotated .item__front {
     transform: rotateY(0deg);

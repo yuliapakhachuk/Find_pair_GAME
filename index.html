@@ -40,13 +40,22 @@
                     <span class="value" data-seconds>00</span>
                 </div>
             </div>
-            <button type="button" data-restart class="new__game-btn">New Game</button>
+            <button type="button" data-restart class="new__game-btn">Back to menu</button>
         </div>
     </div>
     
     <template id="start__page">
-        <button type="button" data-start>Start Game</button>
         <button type="button" data-scores>Show scores</button>
+        <button type="button" data-start>Start Game</button>
+        <ul class="level__list">
+            <li>
+                <button data-level="beginner">Beginner</button>
+            </li>
+            <li>
+                <button data-level="expert">Expert</button>
+            </li>
+
+        </ul>
     </template>
     
     <template id="card__field">

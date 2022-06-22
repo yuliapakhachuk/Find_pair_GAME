@@ -1,51 +1,51 @@
-// const heroes =
-//     [1, 2, 3, 4, 5, 6,
-//     7, 8, 9, 10, 11, 12,
-//     13, 14, 15, 16, 17, 18,
-//     19, 20, 21, 22, 23, 24,
-//     25, 26, 27, 28, 29, 30,
-//     31, 32, 33, 34, 35, 36];
-
 let heroes = [
-    { number: 1, heroName: "SpiderMen", checked: false},
-    { number: 2, heroName: "Gamora", checked: false},
-    { number: 3, heroName: "CapitanAmerica", checked: false },
-    { number: 4, heroName: "BlackWillow", checked: false },
-    { number: 5, heroName: "Thor", checked: false },
-    { number: 6, heroName: "IronMan", checked: false },
-    { number: 7, heroName: "AntMan", checked: false },
-    { number: 8, heroName: "Lockie", checked: false },
-    { number: 9, heroName: "Vision", checked: false },
-    { number: 10, heroName: "MrsMarvell", checked: false },
-    { number: 11, heroName: "Sokol", checked: false },
-    { number: 12, heroName: "Enot", checked: false },
-    { number: 13, heroName: "Ronan", checked: false },
-    { number: 14, heroName: "Wanda", checked: false },
-    { number: 15, heroName: "Glove", checked: false },
-    { number: 16, heroName: "Hulk", checked: false },
-    { number: 17, heroName: "Altron", checked: false },
-    { number: 18, heroName: "Valkiria", checked: false },
-    { number: 1, heroName: "SpiderMen", checked: false },
-    { number: 2, heroName: "Gamora", checked: false },
-    { number: 3, heroName: "CapitanAmerica", checked: false },
-    { number: 4, heroName: "BlackWillow", checked: false },
-    { number: 5, heroName: "Thor", checked: false },
-    { number: 6, heroName: "IronMan", checked: false },
-    { number: 7, heroName: "AntMan", checked: false },
-    { number: 8, heroName: "Lockie", checked: false },
-    { number: 9, heroName: "Vision", checked: false },
-    { number: 10, heroName: "MrsMarvell", checked: false },
-    { number: 11, heroName: "Sokol" , checked: false},
-    { number: 12, heroName: "Enot", checked: false },
-    { number: 13, heroName: "Ronan", checked: false },
-    { number: 14, heroName: "Wanda", checked: false },
-    { number: 15, heroName: "Glove", checked: false },
-    { number: 16, heroName: "Hulk", checked: false },
-    { number: 17, heroName: "Altron" , checked: false},
-    { number: 18, heroName: "Valkiria", checked: false },
+    { number: 1, heroName: "SpiderMen"},
+    { number: 2, heroName: "Gamora"},
+    { number: 3, heroName: "CapitanAmerica" },
+    { number: 4, heroName: "BlackWillow" },
+    { number: 5, heroName: "Thor" },
+    { number: 6, heroName: "IronMan" },
+    { number: 7, heroName: "AntMan" },
+    { number: 8, heroName: "Lockie" },
+    { number: 9, heroName: "Vision" },
+    { number: 10, heroName: "MrsMarvell" },
+    { number: 11, heroName: "Sokol" },
+    { number: 12, heroName: "Enot" },
+    { number: 13, heroName: "Ronan" },
+    { number: 14, heroName: "Wanda" },
+    { number: 15, heroName: "Glove" },
+    { number: 16, heroName: "Hulk" },
+    { number: 17, heroName: "Altron" },
+    { number: 18, heroName: "Valkiria" },
+    { number: 1, heroName: "SpiderMen" },
+    { number: 2, heroName: "Gamora" },
+    { number: 3, heroName: "CapitanAmerica" },
+    { number: 4, heroName: "BlackWillow" },
+    { number: 5, heroName: "Thor" },
+    { number: 6, heroName: "IronMan" },
+    { number: 7, heroName: "AntMan" },
+    { number: 8, heroName: "Lockie" },
+    { number: 9, heroName: "Vision" },
+    { number: 10, heroName: "MrsMarvell" },
+    { number: 11, heroName: "Sokol" },
+    { number: 12, heroName: "Enot" },
+    { number: 13, heroName: "Ronan" },
+    { number: 14, heroName: "Wanda" },
+    { number: 15, heroName: "Glove" },
+    { number: 16, heroName: "Hulk" },
+    { number: 17, heroName: "Altron" },
+    { number: 18, heroName: "Valkiria" },
 ]
 
-const level = 1;
+let userData = {
+    userName: "",
+    userScore: "",
+    userTime: "",
+    userLevel: "",
+// напиши метод сотрування масиву выд левела
+}
+
+
 
 //DOM elements:
 const refs = {
@@ -54,56 +54,75 @@ const refs = {
     seconds: document.querySelector("span[data-seconds]"),
     rightfield: document.querySelector(".timer__box"),
     gameTimer: document.querySelector('.timer'),
-
     middleBox: document.querySelector(".middle__box"),
     cardField: document.querySelector("#card__field"),
     startPage: document.querySelector("#start__page"),
     tableScore: document.querySelector("#table__score"),
-    newGameBtn: document.querySelector(".new__game-btn"),
+    menuBtn: document.querySelector(".new__game-btn"),
 }
 
 
 function showStartPage() { 
     refs.middleBox.innerHTML = "";
     refs.gameTimer.classList.add('is-hidden');
-    refs.newGameBtn.classList.add('is-hidden');
-
+    refs.menuBtn.classList.add('is-hidden');
+    
     refs.middleBox.append(refs.startPage.content.cloneNode(true));
     refs.startBtn = document.querySelector("button[data-start]");
-    refs.startBtn.addEventListener('click', showCardField);
+    // refs.startBtn.addEventListener('click', showCardField);
+    refs.startBtn.addEventListener('click', chooseLevel);
+
     refs.scoreBtn = document.querySelector('button[data-scores]');
     refs.scoreBtn.addEventListener('click', showTableScore);
+
+    refs.levelList = document.querySelector('.level__list');
+    refs.levelList.classList.add('is-hidden');
 }
-
-
-refs.newGameBtn.addEventListener('click', () => {
-    window.location.reload();
-    // randomHeroes();
-    // createGridItems()
-    // showCardField();
-});
-
 
 showStartPage();
 
 
-// Make random order in Array:
-function randomHeroes(array) { 
-    // const arrayByLevel = array.filter(item => item.number < 10);
-
-    for (let i = 0; i < array.length; i++) { 
-    let currentHero = array[i];
-        let randomIndex = (Math.floor(Math.random() * array.length));
-        array[i] = heroes[randomIndex];
-        array[randomIndex] = currentHero;
-    }
-    return array;
+function chooseLevel() { 
+    refs.levelList.classList.remove('is-hidden');
+    
+    refs.beginnerBtn = document.querySelector('button[data-level="beginner"]');
+    refs.beginnerBtn.addEventListener('click', () => { 
+        userData.userLevel = "beginner";
+        showCardField();
+    });
+    refs.expertBtn = document.querySelector('button[data-level="expert"]');
+    refs.expertBtn.addEventListener('click', () => { 
+        userData.userLevel = "expert";
+        showCardField();
+    });
 }
 
-const randomHeroesArray = randomHeroes(heroes);
+refs.menuBtn.addEventListener('click', () => {
+    window.location.reload();
+});
+
+
+
+
+// Make random order in Array:
+function randomHeroes(heroes) { 
+    const arrayByLevel = (userData.userLevel === "expert") ? (heroes) : (heroes.filter(item => { return item.number <= 8; }));
+    console.log(arrayByLevel);
+
+    for (let i = 0; i < arrayByLevel.length; i++) { 
+    let currentHero = arrayByLevel[i];
+        let randomIndex = (Math.floor(Math.random() * arrayByLevel.length));
+        arrayByLevel[i] = arrayByLevel[randomIndex];
+        arrayByLevel[randomIndex] = currentHero;
+    }
+    return arrayByLevel;
+}
+
+
 
 //Creates HTML in grid-container whith random order:
 function createGridItems() { 
+    const randomHeroesArray = randomHeroes(heroes);
     return randomHeroesArray.map((hero, index) =>
         `
             <div class="grid__item" data-id=${index} data-hero=${hero.heroName} style="animation-delay:${index * 100}ms">
@@ -117,19 +136,19 @@ function createGridItems() {
 }
 
 
-
 //renders cards field:
-
 function showCardField() { 
     refs.middleBox.innerHTML = "";
     refs.gameTimer.classList.remove('is-hidden');
-    refs.newGameBtn.classList.remove('is-hidden');
+    refs.menuBtn.classList.remove('is-hidden');
 
     refs.middleBox.append(refs.cardField.content.cloneNode(true));
     
     refs.gridContainer = document.querySelector(".grid__container");
     refs.gridContainer.innerHTML = createGridItems();
-    refs.gridContainer.addEventListener('click', findsPair, true);
+    refs.gridContainer.addEventListener('click', (e) => {
+        findsPair(e);
+    }, true);
 }
 
 
@@ -140,40 +159,46 @@ function showTableScore() {
 
     refs.middleBox.append(refs.tableScore.content.cloneNode(true));
     refs.table = document.querySelector('.table__score--container');
+    refs.tableBody = document.querySelector('.table__body');
+    refs.tableBody.innerHTML = renderScoreTableHTML()
 
     refs.gameTimer.classList.add('is-hidden');
+    refs.menuBtn.classList.remove('is-hidden');
+}
+
+function clearCardsRotated(cards) {
+    setTimeout(() => { 
+        cards.forEach(element => {
+            element.classList.remove('rotated');
+        });
+    }, 1000)
 }
 
 
 //Game logic:
 let previousSelectedCard;
-let timer;
 let totalScore = 0;
 
 function findsPair(e) {
-    if (!timer && !e.target.classList.contains('rotated')) {
+    if (!e.target.classList.contains('rotated')) {
         e.target.classList.add("rotated");
         startTimer();
         if (previousSelectedCard)  {
             if (previousSelectedCard.dataset.hero === e.target.dataset.hero) {
-                previousSelectedCard = undefined;
                 totalScore = totalScore + 1;
             } else {
-                timer = setTimeout(() => {
-                    previousSelectedCard.classList.remove("rotated");
-                    e.target.classList.remove("rotated");
-                    previousSelectedCard = undefined;
-                    timer = undefined;
-                }, 1000)
+                clearCardsRotated([
+                    previousSelectedCard, e.target
+                ]);
             }
+            previousSelectedCard = undefined;
         } else {
             previousSelectedCard = e.target;
         }
-    }
-    console.log(totalScore);
 
-    if (totalScore === (heroes.length / 18)) {
-        finishedGame();
+        if (totalScore === (heroes.length / 18)) {
+            finishedGame();
+        }
     }
 }
 
@@ -197,10 +222,6 @@ function startTimer() {
     };
 }
 
-let userData = {
-    userName: "",
-    userScore: "",
-}
 
 function finishedGame() {
     clearInterval(gameTimer);
@@ -208,41 +229,35 @@ function finishedGame() {
     //konfeti
 
     setTimeout(() => {
-        
-        userData.userName = prompt("WELL DONE! Your name is...");
-        // if (userData.userName = "" || userData.userName === null) { 
-        //     userData.userName = randomHeroesArray.find((el, i, arr) => arr[0].userName);
-        // }
-        userData.userScore = (Number(refs.minutes.textContent) * 60) + Number(refs.seconds.textContent);
-        // setTimeout(() => (showTableScore()) , 1000);
+        userData.userName = prompt("WELL DONE! Your name is...") || "Noname";
+        userData.userScore = (min * 60) + sec;
+        userData.userTime = `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
+        setTimeout(() => (showTableScore()) , 1000);
+        savingScore();
     }, 1000);
-    savingScore();
 }
 
 //saving users score:
 function savingScore() {
-    setTimeout(() => { 
         
-        const LOCALSTORAGE_KEY = "bestScoresGame";
-        const LOCALSTORAGE_VALUE = localStorage.getItem("bestScoresGame");
-        let bestScores = (JSON.parse(LOCALSTORAGE_VALUE) === null ? [] : [...JSON.parse(LOCALSTORAGE_VALUE)]);
-        
-    if (bestScores.length <= 10) {
-        bestScores.push(userData);
-        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
-    } else {
-        const scores = bestScores.map(item =>  Number(item.userScore));
-        const worstResultIndex = scores.indexOf(Math.max(...scores));
-        const worstResult = bestScores[worstResultIndex];
-        if (userData.userScore <= worstResult.userScore) {
-            bestScores.splice(worstResultIndex, 1);
-            bestScores.push(userData);
-            localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
-        } else {
-            alert(`So sorry ${userData.userName}, try again to get better result:)`)
-            }
-        }
-    }, 1500)
+    const LOCALSTORAGE_KEY = "bestScoresGame";
+    const scoreValues = localStorage.getItem("bestScoresGame");
+    const bestScores = (JSON.parse(scoreValues) === null ? [] : [...JSON.parse(scoreValues)]);
+    
+    bestScores.push(userData);
+    bestScores.sort((a, b) => a.userScore - b.userScore);
+    bestScores.splice(100);
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(bestScores));
 }
 
+function renderScoreTableHTML() { 
+    return [...JSON.parse(localStorage.getItem("bestScoresGame"))].map(score => {
+        return `
+            <tr class="table__row">
+                <td class="user__name">${score.userName}</td>
+                <td class="user__score">${score.userTime}</td>
+            </tr>
+            `
+    }).join("");
+}
 
