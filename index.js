@@ -58,7 +58,6 @@ const refs = {
     tableScore: document.querySelector("#table__score"),
     menuBtn: document.querySelector(".new__game-btn"),
     allResults: document.querySelector('#all__scores'),
-    showMoreBtn: document.querySelector(".show__more"),
 }
 
 
@@ -226,7 +225,7 @@ function finishedGame() {
     clearInterval(gameTimer);
 
     setTimeout(() => {
-        userData.userName = prompt("WELL DONE! Your name is...") || "Noname";
+        userData.userName = prompt("WELL DONE! Your name is...") || `${arrayByLevel[0].heroName}`;
         userData.userScore = (min * 60) + sec;
         userData.userTime = `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
         setTimeout(() => (showTableScore()) , 1000);
@@ -247,10 +246,9 @@ function savingScore() {
 }
 
 function renderScoreTableHTML() { 
-    refs.showMoreBtn.classList.remove("is-hidden");
     const bestScores = (JSON.parse(localStorage.getItem("bestScoresGame")) === null ? [] : [...JSON.parse(localStorage.getItem("bestScoresGame"))]);
 
-    return bestScores.slice(0, 10).map(score => {
+    return bestScores.slice(0, 100).map(score => {
         return `
             <tr class="table__row">
                 <td class="user__name">${score.userName}</td>
@@ -260,23 +258,3 @@ function renderScoreTableHTML() {
     }).join("");
 }
 
-refs.showMoreBtn.addEventListener('click', showMoreScores);
-
-function showMoreScores() {
-    refs.showMoreBtn.classList.add("is-hidden");
-    refs.middleBox.innerHTML = "";
-
-    refs.middleBox.append(refs.allResults.content.cloneNode(true));
-    refs.allScoresList = document.querySelector('.all__scores--list');
-        
-    const allScoreItems = [...JSON.parse(localStorage.getItem("bestScoresGame"))].slice(10, 90).map(score => {
-        return `
-        <li class="all__scores--item">
-            <span class="all__scores--name">${score.userName}</span> - 
-            <span class="all__scores--time">${score.userTime}</span>
-        </li>
-        `
-    }).join("");
-    
-    refs.allScoresList.innerHTML = allScoreItems;
-}
