@@ -37,7 +37,7 @@ let heroes = [
     { number: 18, heroName: "Valkiria" },
 ]
 
-let userData = {
+const userData = {
     userName: "",
     userScore: "",
     userTime: "",
@@ -58,6 +58,7 @@ const refs = {
     tableScore: document.querySelector("#table__score"),
     menuBtn: document.querySelector(".new__game-btn"),
     allResults: document.querySelector('#all__scores'),
+    showMoreBtn: document.querySelector(".show__more"),
 }
 
 
@@ -68,7 +69,6 @@ function showStartPage() {
     
     refs.middleBox.append(refs.startPage.content.cloneNode(true));
     refs.startBtn = document.querySelector("button[data-start]");
-    // refs.startBtn.addEventListener('click', showCardField);
     refs.startBtn.addEventListener('click', chooseLevel);
 
     refs.scoreBtn = document.querySelector('button[data-scores]');
@@ -79,6 +79,7 @@ function showStartPage() {
 }
 
 showStartPage();
+
 refs.menuBtn.addEventListener('click', () => { window.location.reload(); });
 
 
@@ -98,12 +99,11 @@ function chooseLevel() {
 }
 
 
-
 // Make random order in Array:
 let arrayByLevel;
+
 function randomHeroes(heroes) { 
     arrayByLevel = (userData.userLevel === "expert") ? (heroes) : (heroes.filter(item => { return item.number <= 8; }));
-    console.log(arrayByLevel);
 
     for (let i = 0; i < arrayByLevel.length; i++) { 
     let currentHero = arrayByLevel[i];
@@ -111,7 +111,6 @@ function randomHeroes(heroes) {
         arrayByLevel[i] = arrayByLevel[randomIndex];
         arrayByLevel[randomIndex] = currentHero;
     }
-    console.log(heroes);
     return arrayByLevel;
 }
 
@@ -121,7 +120,7 @@ function createGridItems() {
     const randomHeroesArray = randomHeroes(heroes);
     return randomHeroesArray.map((hero, index) =>
         `
-            <div class="grid__item" data-id=${index} data-hero=${hero.heroName} style="animation-delay:${index * 100}ms">
+            <div class="grid__item" data-id=${index} data-hero=${hero.heroName}">
                 <div class="item__front">
                     <img src="./images/${hero.number}.png" alt="">
                 </div>
@@ -150,7 +149,6 @@ function showCardField() {
         findsPair(e);
     }, true);
 }
-
 
 
 //renders table Score:
@@ -226,8 +224,6 @@ function startTimer() {
 function finishedGame() {
     clearInterval(gameTimer);
 
-    //konfeti
-
     setTimeout(() => {
         userData.userName = prompt("WELL DONE! Your name is...") || "Noname";
         userData.userScore = (min * 60) + sec;
@@ -239,7 +235,6 @@ function finishedGame() {
 
 //saving users score:
 function savingScore() {
-        
     const LOCALSTORAGE_KEY = "bestScoresGame";
     const scoreValues = localStorage.getItem("bestScoresGame");
     const bestScores = (JSON.parse(scoreValues) === null ? [] : [...JSON.parse(scoreValues)]);
@@ -251,6 +246,7 @@ function savingScore() {
 }
 
 function renderScoreTableHTML() { 
+    refs.showMoreBtn.classList.remove("is-hidden");
     return [...JSON.parse(localStorage.getItem("bestScoresGame"))].slice(0, 10).map(score => {
         return `
             <tr class="table__row">
@@ -260,10 +256,11 @@ function renderScoreTableHTML() {
             `
     }).join("");
 }
-refs.showMoreBtn = document.querySelector(".show__more");
+
 refs.showMoreBtn.addEventListener('click', showMoreScores);
 
 function showMoreScores() {
+    refs.showMoreBtn.classList.add("is-hidden");
     refs.middleBox.innerHTML = "";
 
     refs.middleBox.append(refs.allResults.content.cloneNode(true));

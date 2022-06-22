@@ -90,12 +90,19 @@ button:hover {
 
     overflow: hidden;
 }
+
 .left__box, 
 .right__box {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+.show__more.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 h1 {
     display: flex;
     flex-direction: column;
@@ -103,6 +110,7 @@ h1 {
     font-size: 40px;
     margin-bottom: 18px;
 }
+
 .water__sign {
     position: absolute;
     top: 80%;
@@ -195,8 +203,8 @@ h1 {
 .table td {
     width: 250px;
     padding: 5px;
-    border-top: 2px solid #af76b2;
-    border-right: 2px solid #af76b2;
+    border-top: 1.5px dashed #af76b2;
+    border-right: 1.5px dashed #af76b2;
 }
 .all__scores--list {
     display: flex;
@@ -205,24 +213,8 @@ h1 {
 
     max-height: 100%;
 }
-
-/* ANIMATION */
-/* @keyframes slide {
-    from {
-        transform: translateX(-50px);
-        opacity: 0;
-    }
-    
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-} */
-/* @keyframes background {
-    from {
-        background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-    }
-    to {
-        background-image: linear-gradient(to right top, #f04d4d, #f67048, #f8904a, #f8ad54, #f6c967, #fbc36f, #febe77, #ffb980, #fb988d, #e081a2, #af76b2, #6a71b3);
-    }
-} */
+.top__ten {
+    color: #bc49c2;
+    text-align: center;
+    margin-bottom: 5px;
+}
